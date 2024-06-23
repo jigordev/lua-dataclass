@@ -9,16 +9,7 @@ function Dataclass.__index(self, key)
     if values and values[key] ~= nil then
         return values[key]
     end
-
-    local instance_value = rawget(self, key)
-    if instance_value then
-        return instance_value
-    end
-    
-    local class_value = rawget(Dataclass, key)
-    if class_value then
-        return class_value
-    end
+    return rawget(self, key) or Dataclass[key]
 end
 
 function Dataclass.__newindex(self, key, value)
@@ -106,7 +97,7 @@ function Dataclass:add_field(field)
     if not field.new then
         field = Field:new(field.name, field.type, field.value)
     end
-        
+
     self.attributes[field.name] = field
     self.values[field.name] = field:set_value()
 end

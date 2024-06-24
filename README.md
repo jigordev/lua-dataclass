@@ -15,13 +15,11 @@ To create a dataclass, you need to define the fields and instantiate a `Dataclas
 ```lua
 local dataclass = require("dataclass")
 
-local fields = {
+local Person = Dataclass:new({
     {name = "name", type = "string", value = "Unknown"},
     {name = "age", type = "number", value = 0},
     dataclass.Field:new("gender", "string", "Other", {"Male", "Female", "Other"}) -- With Field class
-}
-
-local Person = Dataclass:new(fields)
+})
 
 local person1 = Person({name = "Alice", age = 30, gender = "Female"})
 

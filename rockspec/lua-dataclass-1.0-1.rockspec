@@ -2,7 +2,7 @@ package = "lua-dataclass"
 version = "1.0-1"
 source = {
     url = "git://github.com/jigordev/lua-dataclass.git",
-    branch = "master",
+    branch = "main",
 }
 description = {
     summary = "A simple yet powerful dataclass implementation for Lua, inspired by Python's dataclasses.",

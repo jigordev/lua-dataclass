@@ -15,6 +15,7 @@ description = {
 }
 dependencies = {
     "lua >= 5.1",
+    "lua-immutable == 1.0-1"
 }
 build = {
     type = "builtin",

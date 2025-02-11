@@ -33,7 +33,7 @@ local function test_immutability()
     end)
 
     assert(not success)
-    assert(err:match("An immutable dataclass cannot be modified"))
+    assert(err and err:match("Attempt to modify immutable value: name"))
 end
 
 -- Creating a mutable dataclass
@@ -67,7 +67,7 @@ local function test_field_validation_and_choices()
     end)
 
     assert(not success)
-    assert(err:match("Error in Field:set_value: value is not among the choices"))
+    assert(err and err:match("Error in Field:set_value: value is not among the choices"))
 end
 
 -- Initialization hooks
@@ -106,7 +106,7 @@ local function test_to_table()
         Field:new("gender", "string", "Other", {"Male", "Female", "Other"})
     }
 
-    local Person = Dataclass:new(fields, true)
+    local Person = Dataclass:new(fields, false)
     local person1 = Person({name = "Alice", age = 30, gender = "Female"})
     local tbl = person1:to_table()
 

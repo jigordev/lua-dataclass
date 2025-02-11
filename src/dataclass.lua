@@ -1,3 +1,4 @@
+local immutable = require("immutable")
 local Field = require("dataclass.field")
 local utils = require("dataclass.utils")
 
@@ -14,13 +15,9 @@ end
 
 function Dataclass.__newindex(self, key, value)
     if self.attributes and self.attributes[key] then
-        if not self.immutable then
-            local field = self.attributes[key]
-            assert(field ~= nil, "Error in Dataclass:__newindex: unsupported attribute: " .. key)
-            self.values[key] = field:set_value(value)
-        else
-            error("An immutable dataclass cannot be modified")
-        end
+        local field = self.attributes[key]
+        assert(field ~= nil, "Error in Dataclass:__newindex: unsupported attribute: " .. key)
+        self.values[key] = field:set_value(value)
     else
         rawset(self, key, value)
     end
@@ -41,6 +38,10 @@ function Dataclass.__call(self, ...)
 
         if self.after_init then
             self:after_init()
+        end
+
+        if self.immutable then
+            self.values = immutable.ImmutableTable:new(self.values)
         end
 
         return self
